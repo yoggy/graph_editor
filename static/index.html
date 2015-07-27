@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="bootstrap.min.css">
+	<link href="./style.css" rel="stylesheet" type="text/css">
+	<script src="./js/d3.min.js" charset="utf-8"></script>
+	<script src="./js/utils.js" charset="utf-8"></script>
+	<script src="./js/svg_object.js" charset="utf-8"></script>
+	<script src="./js/node.js" charset="utf-8"></script>
+	<script src="./js/node_selection.js" charset="utf-8"></script>
+	<script src="./js/edge.js" charset="utf-8"></script>
+	<script src="./js/edge_selection.js" charset="utf-8"></script>
+	<script src="./js/canvas.js" charset="utf-8"></script>
+	<script src="./js/inspector.js" charset="utf-8"></script>
+	<script src="./js/settings.js" charset="utf-8"></script>
+	<script src="./js/data.js" charset="utf-8"></script>
+	<script src="./js/file.js" charset="utf-8"></script>
+	<script src="./js/index.js" charset="utf-8"></script>
+
+	<!-- build:remove -->
+	<!-- Connect to server process -->
+	<script>if (typeof(require) != 'undefined') {require('electron-connect').client.create()}</script>
+	<!-- end:build -->
+</head>
+<body onload="init()">
+	<div id="editor_container">
+		<div id="toolbox_container">
+			<img id="toolbox_connect" src="./icons/connect_0.svg">
+			<img src="./icons/blank_half.png">
+			<img id="toolbox_zoom_in"  src="./icons/zoom_in_0.svg">
+			<img id="toolbox_zoom_out" src="./icons/zoom_out_0.svg">
+			<img src="./icons/blank_half.png">
+			<img id="toolbox_trash"  src="./icons/trash_0.svg">
+			<img src="./icons/blank_half.png">
+			<img id="toolbox_file_new"  src="./icons/file_new_0.svg">
+			<img id="toolbox_file_save"  src="./icons/file_save_0.svg">
+			<img id="toolbox_file_load"  src="./icons/file_load_0.svg">
+			<img src="./icons/blank_half.png">
+			<img id="toolbox_settings" src="./icons/settings_0.svg">
+		</div>
+		<div id="canvas_container">
+			<svg id="svg" width="1000px" height="1000px">
+				<g id="svg_g">
+					<g id="svg_grid_layer"/>
+					<g id="svg_edge_layer"/>
+					<g id="svg_node_layer"/>
+					<g id="svg_selection_layer"/>
+				</g>
+			</svg>
+		</div>
+		<div id="inspector_container">
+			<div id="inspector_title">inspector</div>
+	  		<div id="properties_table_button_container">
+		  		<button id ="properties_table_button_apply" type="button" class="btn btn-primary ">Apply</button>
+		  		<button id="properties_table_button_cancel" type="button" class="btn btn-default ">Cancel</button>
+	  		</div>
+			<div id="table_container">
+				<table id="properties_table" class="properties_table_class">
+					<tbody>
+						<tr><td>key00</td><td contenteditable="true">value00</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="dialogs_overlay">
+	</div>
+	<div id="settings_dialog_container">
+		<div id="settings_dialog">
+			<div class="settings_dialog_title">Settings</div>
+  			<table id="settings_table" class="table table-striped table-bordered">
+  				<tbody>
+	  				<tr><td>canvas width</td><td>1001</td></tr>
+	  				<tr><td>canvas height</td><td>1002</td></tr>
+	  			</tbody>
+  			</table>
+	  		<div id="settings_dialog_button_container">
+		  		<button id ="settins_button_ok" type="button" class="btn btn-primary btn-lg">OK</button>
+		  		<button id="settins_button_cancel" type="button" class="btn btn-default btn-lg">Cancel</button>
+	  		</div>
+	  	</div>
+	</div>
+</body>
+</html>

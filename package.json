@@ -1,9 +1,8 @@
 {
   "name"    : "graph_editor",
   "version" : "0.0.1",
-  "license": {
-    "type": "MIT",
-    "url": "http://yoggy.mit-license.org/"
+  "license": "MIT",
+  "repository": {"type": "git", "url":"https://github.com/yoggy/graph_editor.git"
   },
   "main"    : "src/app.js",
   "devDependencies": {

@@ -22,38 +22,23 @@ var default_window_h = 800;
 
 var count = 1;
 
-/////////////////////////////////////////////////////////
-// for webcontents-window management
-function addWindow(w) {
-	webcontenthash.push(w);
-}
-
-function removeWindow(w) {
-	webcontenthash.delete(w);
-	if (webcontenthash.length() == 0) {
-		app.quit();
-	}
-}
-
-/////////////////////////////////////////////////////////
-// for IPC
 ipc.on('new', function(evt, arg) {
-  createNewDocument();
+	createNewDocument();
 });
 
 ipc.on('show-dialog', function(evt, arg) {
-  console.log("show-dialog");
+	console.log("show-dialog");
 
-  var webcontent = evt.sender;
-  var w = webcontenthash.getWindow(webcontent);
+	var webcontent = evt.sender;
+	var w = webcontenthash.getWindow(webcontent);
 
-  var rv = dialog.showMessageBox(w, {
-      type: 'info',
-      message: 'save changes?',
-      buttons: ['Yes', 'No', 'Cancel']
-  });
+	var rv = dialog.showMessageBox(w, {
+		type: 'info',
+		message: 'save changes?',
+		buttons: ['Yes', 'No', 'Cancel']
+	});
 
-  evt.returnValue = rv;
+	evt.returnValue = rv;
 });
 
 ipc.on('load', function(evt, arg) {
@@ -68,12 +53,14 @@ ipc.on('save', function(evt, arg) {
 });
 
 ipc.on('close-window', function(evt, arg) {
-  var w = webcontenthash.getWindow(evt.sender);
-  closeWindow(w);
+	var w = webcontenthash.getWindow(evt.sender);
+
+	webcontenthash.delete(w);
+
+	w.enable_close = true;
+	w.close();
 });
 
-/////////////////////////////////////////////////////////
-// for handling windows
 function createWindow() {
 	var w = new BrowserWindow({
 		width: default_window_w,
@@ -87,19 +74,16 @@ function createWindow() {
 	if (client  != null) {
 		client.create(w);
 	}
-	addWindow(w);
+	webcontenthash.push(w);
 
+	w.enable_close = false;
 	w.on('close', function(evt) {
-		evt.preventDefault();
-		w.webContents.send('close-window-event');
+		if (w.enable_close == false) {
+			evt.preventDefault();
+			w.webContents.send('close-window-event');
+		}
 	});
-
 	return w;
-}
-
-function closeWindow(w) {
-  removeWindow(w);
-  w.destroy();
 }
 
 function createNewDocumentFilename() {
@@ -189,6 +173,11 @@ function saveAsDocument(w, content) {
 
 	return true;
 }
+
+app.on('window-all-closed', function() {
+    console.log("window-all-closed");
+    app.quit();
+});
 
 app.on('ready', function() {
 	createNewDocument();

@@ -28,6 +28,13 @@ function addWindow(w) {
 	webcontenthash.push(w);
 }
 
+function removeWindow(w) {
+	webcontenthash.delete(w);
+	if (webcontenthash.length() == 0) {
+		app.quit();
+	}
+}
+
 /////////////////////////////////////////////////////////
 // for IPC
 ipc.on('new', function(evt, arg) {
@@ -61,14 +68,12 @@ ipc.on('save', function(evt, arg) {
 });
 
 ipc.on('close-window', function(evt, arg) {
-	var w = webcontenthash.getWindow(evt.sender);
-
-	webcontenthash.delete(w);
-
-	w.enable_close = true;
-	w.close();
+  var w = webcontenthash.getWindow(evt.sender);
+  closeWindow(w);
 });
 
+/////////////////////////////////////////////////////////
+// for handling windows
 function createWindow() {
 	var w = new BrowserWindow({
 		width: default_window_w,
@@ -84,15 +89,17 @@ function createWindow() {
 	}
 	addWindow(w);
 
-	w.enable_close = false;
 	w.on('close', function(evt) {
-		if (w.enable_close == false) {
-			evt.preventDefault();
-			w.webContents.send('close-window-event');
-		}
+		evt.preventDefault();
+		w.webContents.send('close-window-event');
 	});
 
 	return w;
+}
+
+function closeWindow(w) {
+  removeWindow(w);
+  w.destroy();
 }
 
 function createNewDocumentFilename() {
@@ -182,11 +189,6 @@ function saveAsDocument(w, content) {
 
 	return true;
 }
-
-app.on('window-all-closed', function() {
-    console.log("window-all-closed");
-    app.quit();
-});
 
 app.on('ready', function() {
 	createNewDocument();

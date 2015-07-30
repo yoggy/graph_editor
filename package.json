@@ -3,7 +3,6 @@
   "version" : "0.0.1",
   "author": "yoggy",
   "description": "simple graph editor",
-  "license": "MIT",
   "repository": {"type": "git", "url":"https://github.com/yoggy/graph_editor.git"
   },
   "main"    : "src/app.js",

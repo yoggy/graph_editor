@@ -75,6 +75,7 @@ FileOperationForBrowser.constructor = FileOperationForBrowser;
 
 FileOperationForBrowser.prototype.newFile = function() {
 	setupInitialData();
+	resetCanvasZoomTranslate();
 }
 
 FileOperationForBrowser.prototype.loadFile = function() {

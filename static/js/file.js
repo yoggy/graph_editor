@@ -79,6 +79,7 @@ FileOperationForBrowser.prototype.newFile = function() {
 
 FileOperationForBrowser.prototype.loadFile = function() {
 	deserializeData(this.content);
+	resetCanvasZoomTranslate();
 }
 
 FileOperationForBrowser.prototype.saveFile = function(content) {

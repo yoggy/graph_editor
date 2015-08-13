@@ -40,6 +40,10 @@ function setCanvasZoomTranslate(x, y, scale) {
  	zoom_scale = scale;
 }
 
+function resetCanvasZoomTranslate() {
+	setCanvasZoomTranslate(0, 0, 1.0);
+}
+
 function zoomInCanvas() {
 	console.log("zoomInCanvas()");
 
